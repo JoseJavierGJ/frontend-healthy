@@ -1,12 +1,11 @@
 <template>
-  <v-row justify="center" align="center">
-    Hola
-  </v-row>
+  <user-login />
 </template>
 
 <script>
 export default {
   name: 'IndexPage',
-  auth: false
+  auth: false,
+  layout: 'login'
 }
 </script>
