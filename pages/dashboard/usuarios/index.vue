@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     obtenerUsuarios () {
-      const url = process.nextTick.URL_BASE + '/get-all-users'
+      const url = '/get-all-users'
       const config = {
         headers: {
           Authorization: `Bearer ${this.token}`
