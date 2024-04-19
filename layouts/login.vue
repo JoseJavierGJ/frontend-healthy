@@ -10,10 +10,17 @@
         <v-row>
           <v-col cols="6">
             <v-row height="300px" align="center" justify="center">
-              <h1>Clinic Patient's Dashboard</h1>
+              <h1 style="padding-top: 50px;">
+                Clinic Patient's Dashboard
+              </h1>
             </v-row>
             <v-row align="center" justify="center">
-              <v-img :src="require('@/assets/images/logo.svg')" />
+              <v-img
+                :src="require('@/assets/images/logo.svg')"
+                max-width="500px"
+                max-height="500px"
+                style="margin-top: -30px;"
+              />
             </v-row>
           </v-col>
           <v-col cols="6" style="height: 100%!important;" align-self="center">
