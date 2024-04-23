@@ -11,7 +11,27 @@
       <v-data-table
         :headers="headers"
         :items="usuarios"
-      />
+      >
+        <template #[`item.email`]="{item}">
+          <span style="font-weight: 800;">
+            {{ item.email }}
+          </span>
+        </template>
+        <template #[`item.acciones`]="{item}">
+          <v-row>
+            <v-col cols="6">
+              <v-btn icon color="red" @click="deleteUser(item)">
+                <v-icon>mdi-trash-can</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn icon color="warning" @click="UpdateUser(item)">
+                <v-icon>mdi-account</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-table>
     </v-row>
     <v-dialog
       v-model="showDialog"
@@ -60,6 +80,28 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showDelete" width="300" persistent>
+      <v-card>
+        <v-card-title>Delete User</v-card-title>
+        <v-card-text>Are you sure?</v-card-text>
+        <v-card-actions>
+          <v-col cols="6">
+            <v-btn block color="green" @click="borrarUsuario">
+              <span style="text-transform: none; color: white;">
+                Borrar
+              </span>
+            </v-btn>
+          </v-col>
+          <v-col cols="6">
+            <v-btn block color="red" @click="showDialog = false">
+              <span style="text-transform: none; color: white;">
+                Cancelar
+              </span>
+            </v-btn>
+          </v-col>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-col>
 </template>
 
@@ -83,11 +125,18 @@ export default {
           value: 'password',
           align: 'center',
           sortable: true
+        },
+        {
+          text: 'Acciones',
+          value: 'acciones',
+          align: 'center'
         }
       ],
       showDialog: false,
       email: null,
-      password: null
+      password: null,
+      userToDelete: null,
+      showDelete: false
     }
   },
   computed: {
@@ -129,6 +178,24 @@ export default {
         .catch((error) => {
           console.log('@@ error => ', error)
         })
+    },
+    borrarUsuario () {
+      const url = `/users/${this.userToDelete.email}`
+      this.$axios.delete(url)
+        .then((res) => {
+          if (res.status === 204) {
+            this.showDelete = false
+            this.obtenerUsuarios()
+          }
+        })
+        .catch((err) => {
+          console.log('@@ err => ', err)
+        })
+    },
+    deleteUser (user) {
+      this.userToDelete = user
+      this.showDelete = true
+      console.log('@@@ user => ', this.userToDelete)
     }
   }
 }
